@@ -13,15 +13,6 @@ const UserSchema = new Schema<IUser>(
       select: false,         // hide password
     },
 
-=======
-import mongoose, { Schema, Document, Model, type HydratedDocument } from "mongoose";
-import bcrypt from "bcryptjs";
-import type { IUser } from "../types/User.type.js";
-
-
-const UserSchema = new Schema<IUser>(
-  {
-    email: { type: String, required: true, unique: true, lowercase: true },
     username: { type: String, required: true, unique: true },
 
     profile: {
@@ -58,4 +49,14 @@ UserSchema.methods.comparePassword = async function (password: string) {
   return bcrypt.compare(password, this.password);
 };
 
-rt const User: Model<IUser> = mongoose.model<IUser>("User", UserSchema);
+/* ---------------- TRANSFORM ---------------- */
+
+UserSchema.set("toJSON", {
+  versionKey: false,
+  transform: (_, ret: { password?: string }) => {
+    delete ret.password;
+    return ret;
+  },
+});
+
+export const User: Model<IUser> = mongoose.model<IUser>("User", UserSchema);

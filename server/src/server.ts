@@ -6,12 +6,9 @@ import cors from "cors";
 import rateLimit from "express-rate-limit";
 import http from "http";
 import ApiResponse from "./utils/ApiResponse";
-
 import { connectDB } from "../config/db";
 
 import router from "./route/routes";
-
-
 
 
 
@@ -45,7 +42,6 @@ app.use(
         max: 20,
     })
 );
-
 
 
 /* -------------------- Routes -------------------- */
